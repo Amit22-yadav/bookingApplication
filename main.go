@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"study-go/helper"
 )
 
 const conferenceTickets uint = 50
@@ -21,7 +22,7 @@ func main() {
 		firstName, lastName, email, userTickets := getUserInput()
 
 		// validating the user input
-		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets)
+		isValidName, isValidEmail, isValidTicketNumber := helper.ValidateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 			bookTicket(userTickets, firstName, lastName, email)
@@ -73,15 +74,6 @@ func printFristNames() []string {
 
 }
 
-func validateUserInput(firstName string, lastName string, email string, userTickets uint) (bool, bool, bool) {
-	// User input validation
-	isValidName := len(firstName) >= 2 && len(lastName) >= 2
-	isValidEmail := strings.Contains(email, "@")
-	isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
-	return isValidName, isValidEmail, isValidTicketNumber
-
-}
-
 func getUserInput() (string, string, string, uint) {
 
 	var firstName string
@@ -113,4 +105,4 @@ func bookTicket(userTickets uint, firstName string, lastName string, email strin
 	fmt.Printf("%v tickets are remaining for %v \n", remainingTickets, conferenceName)
 }
 
-// package level variables in go
+// Packages in go lang
