@@ -5,27 +5,29 @@ import (
 	"strings"
 )
 
+const conferenceTickets uint = 50
+
+var conferenceName = "Go Conference"
+var remainingTickets uint = 50
+var bookings []string
+
 func main() {
 
-	var conferenceName = "Go Conference"
-	const conferenceTickets uint = 50
-	var remainingTickets uint = 50
-	var bookings []string
 	// calling the functions to greet the users.
-	greetUsers(conferenceName, conferenceTickets, remainingTickets)
+	greetUsers()
 	// fmt.Println("Welcome to" ,conferenceName ,"booking Application")
 	for {
 		// Geeting the input from users
 		firstName, lastName, email, userTickets := getUserInput()
 
 		// validating the user input
-		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets, remainingTickets)
+		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets)
 
 		if isValidName && isValidEmail && isValidTicketNumber {
-			bookTicket(remainingTickets, userTickets, bookings, firstName, lastName, email, conferenceName)
+			bookTicket(userTickets, firstName, lastName, email)
 
 			// calling the functions to print the firstNames.
-			firstNames := printFristNames(bookings)
+			firstNames := printFristNames()
 			fmt.Printf("The first names of bookings are: %v\n", firstNames)
 
 			if remainingTickets == 0 {
@@ -53,13 +55,13 @@ func main() {
 
 }
 
-func greetUsers(confName string, confTicket uint, remTicket uint) {
-	fmt.Printf("Welcome to %v Booking application!!\n", confName)
-	fmt.Printf("We have total of %v tickets and %v are still available!!!\n ", confTicket, remTicket)
+func greetUsers() {
+	fmt.Printf("Welcome to %v Booking application!!\n", conferenceName)
+	fmt.Printf("We have total of %v tickets and %v are still available!!!\n ", conferenceTickets, remainingTickets)
 	fmt.Println("Get your tickets here to attend!!!")
 
 }
-func printFristNames(bookings []string) []string {
+func printFristNames() []string {
 
 	firstNames := []string{}
 	for _, booking := range bookings {
@@ -71,7 +73,7 @@ func printFristNames(bookings []string) []string {
 
 }
 
-func validateUserInput(firstName string, lastName string, email string, userTickets uint, remainingTickets uint) (bool, bool, bool) {
+func validateUserInput(firstName string, lastName string, email string, userTickets uint) (bool, bool, bool) {
 	// User input validation
 	isValidName := len(firstName) >= 2 && len(lastName) >= 2
 	isValidEmail := strings.Contains(email, "@")
@@ -99,7 +101,7 @@ func getUserInput() (string, string, string, uint) {
 	return firstName, lastName, email, userTickets
 }
 
-func bookTicket(remainingTickets uint, userTickets uint, bookings []string, firstName string, lastName string, email string, conferenceName string) {
+func bookTicket(userTickets uint, firstName string, lastName string, email string) {
 	remainingTickets = remainingTickets - userTickets
 	// bookings[0] = firstName + " " + lastName
 	bookings = append(bookings, firstName+" "+lastName)
@@ -110,3 +112,5 @@ func bookTicket(remainingTickets uint, userTickets uint, bookings []string, firs
 	fmt.Printf("Thank you  %v  %v for booking %v tickets.You will receive a confirmation email at %v \n", firstName, lastName, userTickets, email)
 	fmt.Printf("%v tickets are remaining for %v \n", remainingTickets, conferenceName)
 }
+
+// package level variables in go
