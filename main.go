@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"study-go/helper"
+	"time"
 )
 
 const conferenceTickets uint = 50
@@ -34,6 +35,7 @@ func main() {
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 			bookTicket(userTickets, firstName, lastName, email)
+			sendTicket(userTickets, firstName, lastName, email)
 
 			// calling the functions to print the firstNames.
 			firstNames := printFristNames()
@@ -120,4 +122,12 @@ func bookTicket(userTickets uint, firstName string, lastName string, email strin
 
 	fmt.Printf("Thank you  %v  %v for booking %v tickets.You will receive a confirmation email at %v \n", firstName, lastName, userTickets, email)
 	fmt.Printf("%v tickets are remaining for %v \n", remainingTickets, conferenceName)
+}
+func sendTicket(userTickets uint, firstName string, lastName string, email string) {
+	time.Sleep(5 * time.Second)
+	var ticket = fmt.Sprintf("%v tickets for %v %v", userTickets, firstName, lastName)
+	fmt.Printf("###############\n")
+
+	fmt.Printf("Sending ticket:\n %v \nto email address %v\n", ticket, email)
+	fmt.Printf("#####################\n")
 }
