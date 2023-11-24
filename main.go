@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 	"study-go/helper"
 )
 
@@ -10,7 +9,16 @@ const conferenceTickets uint = 50
 
 var conferenceName = "Go Conference"
 var remainingTickets uint = 50
-var bookings = make([]map[string]string, 0)
+var bookings = make([]UserData, 0)
+
+// creating structs in go lang
+
+type UserData struct {
+	firstName       string
+	lastName        string
+	email           string
+	numberOfTickets uint
+}
 
 func main() {
 
@@ -69,7 +77,7 @@ func printFristNames() []string {
 		// var names = strings.Fields(booking)
 
 		// firstNames = append(firstNames, names[0])
-		firstNames = append(firstNames, booking["firstName"])
+		firstNames = append(firstNames, booking.firstName)
 	}
 	// fmt.Printf("These are all our bookings: %v \n", bookings)
 	return firstNames
@@ -99,15 +107,14 @@ func bookTicket(userTickets uint, firstName string, lastName string, email strin
 	remainingTickets = remainingTickets - userTickets
 	// bookings[0] = firstName + " " + lastName
 
-	// create a map for a user
-	var userData = make(map[string]string)
-	userData["firstName"] = firstName
-	userData["lastName"] = lastName
-	userData["email"] = email
-	userData["numberOfTickets"] = strconv.FormatUint(uint64(userTickets), 10) // 10 reprents the decimal number  you can use 16 for hexadecimal or any other type.
+	var userData = UserData{
+		firstName:       firstName,
+		lastName:        lastName,
+		email:           email,
+		numberOfTickets: userTickets,
+	}
 	bookings = append(bookings, userData)
 	fmt.Printf("List of bookings is %v\n", bookings)
-
 	// fmt.Printf("The whole Slice: %v\n", bookings)
 	// fmt.Printf("The first value is : %v\n", bookings[0])
 
