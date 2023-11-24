@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"strings"
+	"strconv"
 	"study-go/helper"
 )
 
@@ -10,7 +10,7 @@ const conferenceTickets uint = 50
 
 var conferenceName = "Go Conference"
 var remainingTickets uint = 50
-var bookings []string
+var bookings = make([]map[string]string, 0)
 
 func main() {
 
@@ -66,8 +66,10 @@ func printFristNames() []string {
 
 	firstNames := []string{}
 	for _, booking := range bookings {
-		var names = strings.Fields(booking)
-		firstNames = append(firstNames, names[0])
+		// var names = strings.Fields(booking)
+
+		// firstNames = append(firstNames, names[0])
+		firstNames = append(firstNames, booking["firstName"])
 	}
 	// fmt.Printf("These are all our bookings: %v \n", bookings)
 	return firstNames
@@ -96,13 +98,19 @@ func getUserInput() (string, string, string, uint) {
 func bookTicket(userTickets uint, firstName string, lastName string, email string) {
 	remainingTickets = remainingTickets - userTickets
 	// bookings[0] = firstName + " " + lastName
-	bookings = append(bookings, firstName+" "+lastName)
 
-	fmt.Printf("The whole Slice: %v\n", bookings)
+	// create a map for a user
+	var userData = make(map[string]string)
+	userData["firstName"] = firstName
+	userData["lastName"] = lastName
+	userData["email"] = email
+	userData["numberOfTickets"] = strconv.FormatUint(uint64(userTickets), 10) // 10 reprents the decimal number  you can use 16 for hexadecimal or any other type.
+	bookings = append(bookings, userData)
+	fmt.Printf("List of bookings is %v\n", bookings)
+
+	// fmt.Printf("The whole Slice: %v\n", bookings)
 	// fmt.Printf("The first value is : %v\n", bookings[0])
 
 	fmt.Printf("Thank you  %v  %v for booking %v tickets.You will receive a confirmation email at %v \n", firstName, lastName, userTickets, email)
 	fmt.Printf("%v tickets are remaining for %v \n", remainingTickets, conferenceName)
 }
-
-// Packages in go lang
